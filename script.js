@@ -7,6 +7,7 @@ const taskDateForm = document.querySelector('#task-date-form')
 const taskDescriptionForm = document.querySelector('#task-description-form')
 const test = document.querySelector('#teste')
 const taskListElement = document.querySelector('#task-list')
+//const btnDeleteTask = document.querySelector('#delete-task')
 
 let taskList = []
 
@@ -30,15 +31,28 @@ function receiveFromLocalStorage() {
     if (taskListExist) {
         taskList = JSON.parse(localStorage.getItem('taskList'))
     }
-    
 }
 
 function constructor() {
     let tasksHtml = ""
     for (i = 0; i < taskList.length; i++) {
-        tasksHtml += `<li> <h2>${taskList[i].name}</h2> <h2>${taskList[i].date}</h2> <p>${taskList[i].description}</p>  </li>`
+        tasksHtml += `<li> <div> <h2>${taskList[i].name}</h2> <h2>${taskList[i].date}</h2> <button id="delete-task">delete</button> </div> <p>${taskList[i].description}</p> </li>`
     }
     taskListElement.innerHTML = tasksHtml
+    createEventListener()
+}
+
+function createEventListener() {
+    let btnsDeleteTask = document.querySelectorAll('#delete-task')
+    let taskListItem = document.querySelectorAll('li')
+    for (let i = 0; i < btnsDeleteTask.length; i++) {
+        btnsDeleteTask[i].addEventListener('click', () => {
+            taskList.splice(i)
+            taskListItem[i].remove()
+            localStorage.clear()
+            localStorage.setItem('taskList', JSON.stringify(taskList))
+        })
+    }
 }
 
 
@@ -55,10 +69,8 @@ taskForm.addEventListener('submit', (evento) => {
 })
 
 test.addEventListener('click', () => {
-    receiveFromLocalStorage()
-    constructor()
+    createEventListener()
 })
-
 
 //reload page
 receiveFromLocalStorage()
