@@ -9,7 +9,7 @@ const test = document.querySelector('#teste')
 const taskListElement = document.querySelector('#task-list')
 //const btnDeleteTask = document.querySelector('#delete-task')
 
-let taskList = []
+let taskList = JSON.parse(localStorage.getItem('taskList')) || []
 
 //funcoes
 function sendToLocalStorage() {
@@ -17,6 +17,7 @@ function sendToLocalStorage() {
         name: taskNameForm.value,
         date: taskDateForm.value,
         description: taskDescriptionForm.value,
+        ok: false,
     }
     taskList.push(task)
     localStorage.setItem('taskList', JSON.stringify(taskList))
@@ -35,16 +36,27 @@ function receiveFromLocalStorage() {
 
 function constructor() {
     let tasksHtml = ""
+    
     for (i = 0; i < taskList.length; i++) {
-        tasksHtml += `<li> <div> <h2>${taskList[i].name}</h2> <h2>${taskList[i].date}</h2> <button id="delete-task">delete</button> </div> <p>${taskList[i].description}</p> </li>`
+        tasksHtml += `<li> <div> <button id="ended-task">Ok</button> <h2>${taskList[i].name}</h2> <h2>${taskList[i].date}</h2> <button id="delete-task">delete</button> </div> <p>${taskList[i].description}</p> </li>`
     }
+
     taskListElement.innerHTML = tasksHtml
+    let taskListItem = document.querySelectorAll('li')
+    
+    for (i = 0; i < taskList.length; i++) {
+        if(taskList[i].ok === true) {
+            taskListItem[i].style.backgroundColor = "#98FB98"
+        }
+    }
+
     createEventListener()
 }
 
 function createEventListener() {
     let btnsDeleteTask = document.querySelectorAll('#delete-task')
     let taskListItem = document.querySelectorAll('li')
+    let btnEndedTask = document.querySelectorAll('#ended-task')
     for (let i = 0; i < btnsDeleteTask.length; i++) {
         btnsDeleteTask[i].addEventListener('click', () => {
             taskList.splice(i)
@@ -52,10 +64,14 @@ function createEventListener() {
             localStorage.clear()
             localStorage.setItem('taskList', JSON.stringify(taskList))
         })
+        btnEndedTask[i].addEventListener('click', () => {
+            taskListItem[i].style.backgroundColor = "#98FB98"
+            taskList[i].ok = true
+            localStorage.clear()
+            localStorage.setItem('taskList', JSON.stringify(taskList))
+        })
     }
 }
-
-
 
 //eventos
 btnAddTask.addEventListener('click', () => {
@@ -73,5 +89,5 @@ test.addEventListener('click', () => {
 })
 
 //reload page
-receiveFromLocalStorage()
+//receiveFromLocalStorage()
 constructor()
