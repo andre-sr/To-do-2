@@ -4,10 +4,10 @@ const taskForm = document.querySelector('#task-form')
 const btnTaskSave = document.querySelector('#task-save')
 const taskNameForm = document.querySelector('#task-name-form')
 const taskDateForm = document.querySelector('#task-date-form')
+const taskTimeForm = document.querySelector('#task-time-form')
 const taskDescriptionForm = document.querySelector('#task-description-form')
 const test = document.querySelector('#teste')
 const taskListElement = document.querySelector('#task-list')
-//const btnDeleteTask = document.querySelector('#delete-task')
 
 let taskList = JSON.parse(localStorage.getItem('taskList')) || []
 
@@ -16,37 +16,33 @@ function sendToLocalStorage() {
     const task = {
         name: taskNameForm.value,
         date: taskDateForm.value,
+        time: taskTimeForm.value,
         description: taskDescriptionForm.value,
-        ok: false,
+        done: false,
+        delay: false,
     }
     taskList.push(task)
     localStorage.setItem('taskList', JSON.stringify(taskList))
 
     taskForm.reset()
     taskForm.classList.add('hidden')
+    delayValidation()
     constructor()
-}
-
-function receiveFromLocalStorage() {
-    const taskListExist = JSON.parse(localStorage.getItem('taskList'))
-    if (taskListExist) {
-        taskList = JSON.parse(localStorage.getItem('taskList'))
-    }
 }
 
 function constructor() {
     let tasksHtml = ""
-    
     for (i = 0; i < taskList.length; i++) {
-        tasksHtml += `<li> <div> <button id="ended-task">Ok</button> <h2>${taskList[i].name}</h2> <h2>${taskList[i].date}</h2> <button id="delete-task">delete</button> </div> <p>${taskList[i].description}</p> </li>`
+        tasksHtml += `<li> <div> <input id="ended-task" type="checkbox" > <h2>${taskList[i].name}</h2> <h2>${taskList[i].date}</h2> <button id="delete-task">delete</button> </div> <p>${taskList[i].description}</p> </li>`
     }
 
     taskListElement.innerHTML = tasksHtml
     let taskListItem = document.querySelectorAll('li')
     
     for (i = 0; i < taskList.length; i++) {
-        if(taskList[i].ok === true) {
+        if(taskList[i].done === true) {
             taskListItem[i].style.backgroundColor = "#98FB98"
+            taskListItem[i].childNodes[1].childNodes[1].textContent = "nah" 
         }
     }
 
@@ -64,18 +60,38 @@ function createEventListener() {
             localStorage.clear()
             localStorage.setItem('taskList', JSON.stringify(taskList))
         })
-        btnEndedTask[i].addEventListener('click', () => {
-            taskListItem[i].style.backgroundColor = "#98FB98"
-            taskList[i].ok = true
-            localStorage.clear()
-            localStorage.setItem('taskList', JSON.stringify(taskList))
+        btnEndedTask[i].addEventListener('change', () => {
+            if (taskList[i].done === false ) {
+                taskListItem[i].style.backgroundColor = "#98FB98"
+                taskList[i].done = true
+                localStorage.clear()
+                localStorage.setItem('taskList', JSON.stringify(taskList))
+            } else {
+                taskListItem[i].style.backgroundColor = "#bfbfbf61"
+                taskList[i].done = false
+                localStorage.clear()
+                localStorage.setItem('taskList', JSON.stringify(taskList))
+            }  
         })
+    }
+}
+
+function delayValidation() {
+    let actualDate = new Date()
+    for (i = 0; i < taskList.length; i++) {
+        let dateFormated = new Date(taskList[i].date + 'T' + taskList[i].time + ':00Z')
+        console.log(dateFormated)
+        if (dateFormated < actualDate) {
+            console.log('a data é menor')
+            taskList[i].delay = true
+        } else {
+            taskList[i].delay = false
+        }
     }
 }
 
 //eventos
 btnAddTask.addEventListener('click', () => {
-    console.log('afsaf')
     taskForm.classList.toggle('hidden')
 })
 
@@ -89,5 +105,5 @@ test.addEventListener('click', () => {
 })
 
 //reload page
-//receiveFromLocalStorage()
+delayValidation()
 constructor()

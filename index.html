@@ -21,7 +21,7 @@
         }
         section {
             margin-top: 20px;
-            background: rgba(191, 191, 191, 0.379);
+            background: #bfbfbf61;
             width: 50vw;
             height: 68vh;
             padding: 1rem;
@@ -39,6 +39,10 @@
             display: flex;
             justify-content: space-between;
         }
+        input[type="checkbox"] {
+            
+        }
+
     </style>
     <script src="script.js" defer></script>
     <title>to-do</title>
@@ -59,12 +63,15 @@
             <form id="task-form" action="" class="hidden" >
                 <input type="text" name="task-name" id="task-name-form" required>
                 <input type="date" name="task-date" id="task-date-form" required>
+                <input type="time" name="task-time" id="task-time-form" value="12:00" required>
                 <br>
                 <textarea name="task-description" id="task-description-form" cols="30" rows="10"></textarea>
                 <button id="task-save" type="submit">Salvar</button>
             </form>
-            <button id="teste">delete all</button>
+            
+            
         </section>
+        <button id="teste">delete all</button>
     </main>
     
 </body>
