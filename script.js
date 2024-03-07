@@ -33,7 +33,7 @@ function sendToLocalStorage() {
 function constructor() {
     let tasksHtml = ""
     for (i = 0; i < taskList.length; i++) {
-        tasksHtml += `<li> <div> <input id="ended-task" type="checkbox" > <h2>${taskList[i].name}</h2> <h2>${taskList[i].date}</h2> <button id="delete-task">delete</button> </div> <p>${taskList[i].description}</p> </li>`
+        tasksHtml += `<li> <div class="header-li" > <div> <input id="ended-task" type="checkbox" > <h2>${taskList[i].name}</h2> <h2>${taskList[i].date}</h2> </div>  <button id="delete-task">delete</button> </div> <p>${taskList[i].description}</p> </li>`
     }
 
     taskListElement.innerHTML = tasksHtml
@@ -41,9 +41,14 @@ function constructor() {
     
     for (i = 0; i < taskList.length; i++) {
         if(taskList[i].done === true) {
-            taskListItem[i].style.backgroundColor = "#98FB98"
-            taskListItem[i].childNodes[1].childNodes[1].textContent = "nah" 
+            taskListItem[i].style.color = "#98FB98"
+    
         }
+
+        if(taskList[i].delay === true) {
+            taskListItem[i].style.color = "#d03a3a"
+        }
+
     }
 
     createEventListener()
@@ -62,12 +67,12 @@ function createEventListener() {
         })
         btnEndedTask[i].addEventListener('change', () => {
             if (taskList[i].done === false ) {
-                taskListItem[i].style.backgroundColor = "#98FB98"
+                taskListItem[i].style.color = "#98FB98" //color: #000000;
                 taskList[i].done = true
                 localStorage.clear()
                 localStorage.setItem('taskList', JSON.stringify(taskList))
             } else {
-                taskListItem[i].style.backgroundColor = "#bfbfbf61"
+                taskListItem[i].style.color = "#000000"
                 taskList[i].done = false
                 localStorage.clear()
                 localStorage.setItem('taskList', JSON.stringify(taskList))

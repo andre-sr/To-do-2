@@ -3,62 +3,38 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <style>
-        body {
-            background-color: rgb(111, 111, 244);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-        main {
-            background: rgb(255, 255, 255);
-            width: 55vw;
-            height: 78vh;
-            margin-top: 50px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;        
-        }
-        section {
-            margin-top: 20px;
-            background: #bfbfbf61;
-            width: 50vw;
-            height: 68vh;
-            padding: 1rem;
-        }
-        section header {
-            display: flex;
-            justify-content: space-between;
-        }
-        .hidden {
-            position: absolute;
-            visibility: hidden;
-        }
-
-        ul li div {
-            display: flex;
-            justify-content: space-between;
-        }
-        input[type="checkbox"] {
-            
-        }
-
-    </style>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,100..700;1,100..700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/styles/reset.css">
+    <link rel="stylesheet" href="/styles/bg-animation.css">
+    <link rel="stylesheet" href="/styles/style.css">
     <script src="script.js" defer></script>
     <title>to-do</title>
 </head>
 <body>
+    <div class="background">
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+     </div>
     <main>
-        <section>
+       
             <header>
                 <h1>TASK list</h1>
                 <button id="add-task">+</button>
             </header>
             <ul id="task-list">
                     
-
-
-   
             </ul>
             <form id="task-form" action="" class="hidden" >
                 <input type="text" name="task-name" id="task-name-form" required>
@@ -68,9 +44,7 @@
                 <textarea name="task-description" id="task-description-form" cols="30" rows="10"></textarea>
                 <button id="task-save" type="submit">Salvar</button>
             </form>
-            
-            
-        </section>
+       
         <button id="teste">delete all</button>
     </main>
     
